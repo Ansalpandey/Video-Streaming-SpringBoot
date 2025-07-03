@@ -56,17 +56,32 @@ class VideoController(private val videoService: VideoService) {
     return videoService.streamVideo(id, range)
   }
 
-    @GetMapping("/{id}/master.m3u8")
-    fun getMasterPlaylist(@PathVariable id: ObjectId): ResponseEntity<Resource> {
-        return videoService.getMasterPlaylist(id)
+//    @GetMapping("/{id}/master.m3u8")
+//    fun getMasterPlaylist(@PathVariable id: ObjectId): ResponseEntity<Resource> {
+//        return videoService.getMasterPlaylist(id)
+//    }
+//
+//    @GetMapping("/{id}/{segment}")
+//    fun getHlsSegment(
+//        @PathVariable id: ObjectId,
+//        @PathVariable segment: String
+//    ): ResponseEntity<Resource> {
+//        return videoService.getHlsSegment(id, segment)
+//    }
+
+    // ✅ New endpoint for MPEG-DASH manifest (.mpd)
+    @GetMapping("/{id}/manifest.mpd")
+    fun getDashManifest(@PathVariable id: ObjectId): ResponseEntity<Resource> {
+        return videoService.getDashManifest(id)
     }
 
+    // ✅ Serve MPEG-DASH segments (.m4s)
     @GetMapping("/{id}/{segment}")
-    fun getHlsSegment(
+    fun getDashSegment(
         @PathVariable id: ObjectId,
         @PathVariable segment: String
     ): ResponseEntity<Resource> {
-        return videoService.getHlsSegment(id, segment)
+        return videoService.getDashSegment(id, segment)
     }
 
 }
